@@ -1,14 +1,14 @@
 import express from "express"
 import cors from "cors"
 import mongoose from "mongoose"
-import { Expression } from "typescript"
+import routes from "./routes/routes"
 
 class App{
     public express: express.Application
 
     public constructor(){
         this.express = express()
-        //this.database()
+        this.database()
         this.middlewares()
         this.routes()
 
@@ -22,14 +22,13 @@ class App{
 
     private database():void{
         mongoose.connect('mongodb://localhost:27017/tsnode',{
-            useNewUrlParser:true
+            useNewUrlParser:true,
+            useUnifiedTopology: true
         })
     }
 
     private routes():void{
-        this.express.get('/',(req,res)=>{
-            return res.send('Hello World')
-        })
+        this.express.use(routes)
     }
 
 }
